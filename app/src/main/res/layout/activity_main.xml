@@ -5,8 +5,83 @@
     android:layout_height="match_parent"
     tools:context="listview.example.x.slidelistview.MainActivity">
 
-    <ListView
-        android:id="@+id/lv_contact"
+    <listview.example.x.slidelistview.RefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="@android:color/holo_red_dark"
+            android:gravity="center_horizontal">
+
+            <ProgressBar
+                android:id="@+id/refresh_progress"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="bottom|right"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/tv_refresh_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="32dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/iv_refreshing"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:src="@drawable/ic_flight_black_24dp" />
+        </FrameLayout>
+
+        <ListView
+            android:id="@+id/lv_contact"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@android:color/holo_red_dark"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/ivLoadingIcon"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/ic_flight_black_24dp" />
+
+                    <ProgressBar
+                        android:id="@+id/load_progress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tv_load_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="正在加载"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </listview.example.x.slidelistview.RefreshLayout>
+
 </android.support.constraint.ConstraintLayout>

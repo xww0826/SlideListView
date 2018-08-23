@@ -1,12 +1,7 @@
 package listview.example.x.slidelistview;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -60,24 +55,5 @@ public class MainActivity extends AppCompatActivity {
         }
         mAdapter = new ListViewAdapter(mData);
         lvContact.setAdapter(mAdapter);
-
-//        lvContact.setVerticalScrollBarEnabled(false);
-//        lvContact.setDivider(null);
-//        lvContact.setDividerHeight(15);
-//        lvContact.setDivider(ContextCompat.getDrawable(this, R.drawable.item_divider));
-//        lvContact.setSelector(R.color.colorSelector);
-//        ImageView view = findViewById(R.id.empty_view);
-//        lvContact.setEmptyView(view);
-
-//        View headerView = LayoutInflater.from(this).inflate(R.layout.header_view, null);
-//        View footerView = LayoutInflater.from(this).inflate(R.layout.footer_view, null);
-//        lvContact.addHeaderView(headerView);
-//        lvContact.addFooterView(footerView);
-
-//        lvContact.setSelection(17);
-
-        lvContact.smoothScrollBy(17,1000);
-        lvContact.smoothScrollByOffset(1);
-        lvContact.smoothScrollToPosition(17);
     }
 }

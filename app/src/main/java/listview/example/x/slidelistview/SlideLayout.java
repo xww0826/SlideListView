@@ -77,11 +77,6 @@ public class SlideLayout extends FrameLayout {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-    }
-
-    @Override
     public boolean onTouchEvent(MotionEvent event) {
         final float x = event.getX();
         final float y = event.getY();
@@ -102,6 +97,7 @@ public class SlideLayout extends FrameLayout {
                 }
 
                 scrollTo(disX, getScrollY());
+
                 final float moveX = Math.abs(x - downX);
                 final float moveY = Math.abs(y - downY);
                 if (moveX > moveY && moveX > 10f) {
