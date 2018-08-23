@@ -168,22 +168,18 @@ public class RefreshLayout extends FrameLayout implements ListView.OnScrollListe
                         disY = 0;
                         ivLoadingIcon.setVisibility(VISIBLE);
                         mLoadingProgress.setVisibility(INVISIBLE);
+                        ivLoadingIcon.setPivotX(ivLoadingIcon.getWidth() / 2);
+                        ivLoadingIcon.setPivotY(ivLoadingIcon.getHeight() / 2);
+                        ivLoadingIcon.setRotation(360);
                     } else if (disY >= mLoadingHeight) {
                         disY = mLoadingHeight + 5;
                     }
                     scrollTo(getScrollX(), disY);
-
-//                    if (dy < 0) {
-//                        startLoadingIcon();
-//                    } else {
-//                        stopLoadingIcon();
-//                    }
                 }
                 startX = x;
                 startY = y;
                 break;
             case MotionEvent.ACTION_UP:
-                isIntercept = false;
                 if (isTop) {
                     if (-getScrollY() > mRefreshHeight) {
                         startRefreshing();
@@ -192,6 +188,7 @@ public class RefreshLayout extends FrameLayout implements ListView.OnScrollListe
                     }
                 } else if (isBottom) {
                     if (getScrollY() > mLoadingHeight) {
+                        isIntercept = true;
                         startLoading();
                     } else {
                         stopLoading();
@@ -216,14 +213,25 @@ public class RefreshLayout extends FrameLayout implements ListView.OnScrollListe
                 if (isTop) {
                     /** 下拉刷新拦截 **/
                     if (upY - y < 0) {
+                        /**
+                         * 在下拉刷新行为时，拦截Listview的滚动事件
+                         */
                         isIntercept = true;
+                        /**
+                         * 剥夺DrawerLayout的touch事件
+                         */
+                        getParent().requestDisallowInterceptTouchEvent(true);
                     } else if (y - upY < 0) {
                         isIntercept = false;
                     }
                 } else if (isBottom) {
                     /** 上拉加载拦截 **/
                     if (y - downY < 0) {
+                        /**
+                         * 上拉加载时，拦截Listview的滚动事件
+                         */
                         isIntercept = true;
+                        getParent().requestDisallowInterceptTouchEvent(true);
                     } else if (y - downY > 0) {
                         isIntercept = false;
                     }
@@ -239,8 +247,11 @@ public class RefreshLayout extends FrameLayout implements ListView.OnScrollListe
 
     private void stopRefreshing() {
         mScroller.startScroll(getScrollX(), getScrollY(), 0, -getScrollY());
+        /**
+         * ListView子项移动到第一个
+         */
+        mListView.setSelection(0);
         invalidate();
-        isIntercept = false;
     }
 
     private void startRefreshing() {
@@ -249,7 +260,6 @@ public class RefreshLayout extends FrameLayout implements ListView.OnScrollListe
         mRefreshProgress.setVisibility(VISIBLE);
         startIconAnimation();
         invalidate();
-        isIntercept = false;
         /**
          * 模拟刷新完成，延迟关闭
          */
@@ -261,14 +271,17 @@ public class RefreshLayout extends FrameLayout implements ListView.OnScrollListe
         ivLoadingIcon.setVisibility(INVISIBLE);
         mLoadingProgress.setVisibility(VISIBLE);
         invalidate();
-        isIntercept = false;
         handler.postDelayed(() -> stopLoading(), 1500);
     }
 
     private void stopLoading() {
-        mScroller.startScroll(getScrollX(), getScrollY(), 0, -getScrollY());
+        mScroller.startScroll(getScrollX(), getScrollY(), 0, -getScrollY(),1500);
+        ivLoadingIcon.setVisibility(VISIBLE);
+        mLoadingProgress.setVisibility(INVISIBLE);
+        ivLoadingIcon.setPivotX(ivLoadingIcon.getWidth() / 2);
+        ivLoadingIcon.setPivotY(ivLoadingIcon.getHeight() / 2);
+        ivLoadingIcon.setRotation(180);
         invalidate();
-        isIntercept = false;
     }
 
     private void startIconAnimation() {
@@ -289,18 +302,6 @@ public class RefreshLayout extends FrameLayout implements ListView.OnScrollListe
         ivRefreshIcon.setPivotX(ivRefreshIcon.getWidth() / 2);
         ivRefreshIcon.setPivotY(ivRefreshIcon.getHeight() / 2);
         ivRefreshIcon.setRotation(360);
-    }
-
-    private void startLoadingIcon() {
-        ivLoadingIcon.setPivotX(ivLoadingIcon.getWidth() / 2);
-        ivLoadingIcon.setPivotY(ivLoadingIcon.getHeight() / 2);
-        ivLoadingIcon.setRotation(0);
-    }
-
-    private void stopLoadingIcon() {
-        ivLoadingIcon.setPivotX(ivLoadingIcon.getWidth() / 2);
-        ivLoadingIcon.setPivotY(ivLoadingIcon.getHeight() / 2);
-        ivLoadingIcon.setRotation(180);
     }
 
     @Override

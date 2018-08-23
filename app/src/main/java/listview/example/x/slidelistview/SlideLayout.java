@@ -86,8 +86,8 @@ public class SlideLayout extends FrameLayout {
                 downY = startY = y;
                 break;
             case MotionEvent.ACTION_MOVE:
-                final float dx = (int) (x - startX);
-                final float dy = (int) (startY - y);
+                final float dx =  x - startX;
+                final float dy =  startY - y;
 
                 int disX = (int) (getScrollX() - dx);
                 if (disX <= 0) {

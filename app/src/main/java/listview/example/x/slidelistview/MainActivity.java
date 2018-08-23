@@ -2,6 +2,7 @@ package listview.example.x.slidelistview;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.lv_contact)
     ListView lvContact;
+    @BindView(R.id.list_drawer)
+    ListView listDrawer;
 
     private ArrayList<ContactEntity> mData;
     private ListViewAdapter mAdapter;
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initData();
+        initDrawerData();
     }
 
     private void initData() {
@@ -55,5 +59,14 @@ public class MainActivity extends AppCompatActivity {
         }
         mAdapter = new ListViewAdapter(mData);
         lvContact.setAdapter(mAdapter);
+    }
+
+    private void initDrawerData() {
+        ArrayList<String> drawerItems = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            drawerItems.add("Item" + i);
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, drawerItems);
+        listDrawer.setAdapter(adapter);
     }
 }
